@@ -1,63 +1,45 @@
 import type { PatternCategory } from './pattern';
 
-export type ProblemDifficulty = 'Easy' | 'Medium' | 'Hard';
+export type ProblemDifficulty = 'easy' | 'medium' | 'hard';
 export type ProblemStatus = 'not-started' | 'attempted' | 'solved' | 'reviewed';
 
 export interface Problem {
-  id: string;
+  id: number;
   title: string;
   difficulty: ProblemDifficulty;
+  leetcodeId: number;
   leetcodeUrl: string;
-  leetcodeNumber: number;
-  patterns: PatternCategory[];
-  isPayPalTagged: boolean;
-  isPremium: boolean;
-  backupUrl?: string; // NeetCode.io link for premium problems
-  timeTarget: number; // minutes
+  neetcodeUrl?: string; // NeetCode.io link for premium problems
+  companies: string[];
+  pattern: PatternCategory;
   description: string;
-  examples: ProblemExample[];
-  constraints: string[];
+  isPremium?: boolean;
   umpire: UMPIREWalkthrough;
-  solution: SolutionCode;
   hints: string[];
-  commonMistakes: string[];
-  followUpQuestions: string[];
-  similarProblems: string[];
+  solution: string;
+  testCases: TestCase[];
 }
 
-export interface ProblemExample {
+export interface TestCase {
   input: string;
-  output: string;
-  explanation?: string;
+  expected: string;
 }
 
 export interface UMPIREWalkthrough {
   understand: string[];
-  match: string;
+  match: string[];
   plan: string[];
   implement: string;
   review: string[];
   evaluate: {
-    time: string;
-    space: string;
+    timeComplexity: string;
+    spaceComplexity: string;
     explanation: string;
   };
 }
 
-export interface SolutionCode {
-  code: string;
-  language: 'python';
-  lineByLineExplanation: LineExplanation[];
-}
-
-export interface LineExplanation {
-  lineStart: number;
-  lineEnd?: number;
-  explanation: string;
-}
-
 export interface ProblemAttempt {
-  problemId: string;
+  problemId: number;
   status: ProblemStatus;
   timeSpent: number; // milliseconds
   attempts: number;
