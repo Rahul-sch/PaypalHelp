@@ -3,13 +3,17 @@ import { Zap, TrendingUp } from 'lucide-react';
 import { Card } from '../ui/card';
 import { Progress, CircularProgress } from '../ui/progress';
 import { useAchievementStore } from '../../stores';
-import { getLevelTitle } from '../../types/achievement';
+import { getLevelTitle, XP_PER_LEVEL } from '../../types/achievement';
 
 export function XPDisplay() {
   const { xp, level, currentStreak, longestStreak, xpHistory } = useAchievementStore();
-  const { current, needed, percentage } = useAchievementStore((state) =>
-    state.getXPToNextLevel()
-  );
+
+  // Calculate XP progress directly to avoid infinite loop
+  const currentLevelXP = xp % XP_PER_LEVEL;
+  const current = currentLevelXP;
+  const needed = XP_PER_LEVEL;
+  const percentage = (currentLevelXP / XP_PER_LEVEL) * 100;
+
   const levelTitle = getLevelTitle(level);
 
   // Get recent XP gains (last 3)
@@ -112,7 +116,9 @@ export function XPDisplay() {
 // Compact version for header or sidebar
 export function XPDisplayCompact() {
   const { xp, level } = useAchievementStore();
-  const { percentage } = useAchievementStore((state) => state.getXPToNextLevel());
+
+  // Calculate percentage directly to avoid infinite loop
+  const percentage = ((xp % XP_PER_LEVEL) / XP_PER_LEVEL) * 100;
 
   return (
     <div className="flex items-center gap-3">
