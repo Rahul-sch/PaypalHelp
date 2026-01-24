@@ -14,10 +14,21 @@ export interface Problem {
   pattern: PatternCategory;
   description: string;
   isPremium?: boolean;
+  paypalFrequent?: boolean; // PayPal frequently asks this
   umpire: UMPIREWalkthrough;
   hints: string[];
   solution: string;
   testCases: TestCase[];
+}
+
+// Lightweight version for PayPal frequent problems list
+export interface PayPalProblem {
+  leetcodeId: number;
+  title: string;
+  difficulty: ProblemDifficulty;
+  acceptanceRate?: number;
+  isPremium?: boolean;
+  starred?: boolean; // User marked as important
 }
 
 export interface TestCase {
